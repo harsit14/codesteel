@@ -1163,9 +1163,9 @@ NODE *insert(NODE *head, NODE *last, int n)
     for (i = 1; i <= n; i++)
     {
         nn = (NODE *)malloc(sizeof(NODE));
-        printf("enter the coefficient \n");
+        printf("Enter the coefficient \n");
         scanf("%d", &nn->cf);
-        printf("enter the exponent values for the x, y and z \n");
+        printf("Enter the exponent values for the x, y and z\n");
         scanf("%d%d%d", &nn->xex, &nn->yex, &nn->zex);
         if (head->link == head)
         {
@@ -1280,7 +1280,7 @@ void eval(NODE *p)
     int x, y, z, res = 0, xval, yval, zval;
     NODE *temp;
     temp = p->link->link;
-    printf("\n enter the value of x,y and z\n");
+    printf("\nEnter the value of x,y and z\n");
     scanf("%d%d%d", &x, &y, &z);
     while (temp != p)
     {
@@ -1294,25 +1294,25 @@ void eval(NODE *p)
     yval = pow(y, temp->yex);
     zval = pow(z, temp->zex);
     res = res + temp->cf * xval * yval * zval;
-    printf("\n the result of the polynomial is %d", res);
+    printf("\nThe result of the polynomial is :-  %d", res);
 }
 void main()
 {
     int n1, n2;
     NODE *head1 = NULL, *head2 = NULL, *p1 = NULL, *p2 = NULL;
-    printf("\n enter the number of terms of first polynomial \n");
+    printf("\nEnter the number of terms of first polynomial\n");
     scanf("%d", &n1);
     p1 = insert(head1, p1, n1);
     eval(p1);
-    printf("\n enter the number of terms of second polynomial\n");
+    printf("\nEnter the number of terms of second polynomial\n");
     scanf("%d", &n2);
     p2 = insert(head2, p2, n2);
     eval(p2);
     add(p1, p2, n1, n2);
-    printf("\n the first polynomial is \n");
+    printf("\nThe first polynomial is :- \n");
     display(p1);
-    printf("\n the second polynomial is \n");
+    printf("\nThe second polynomial is :- \n");
     display(p2);
-    printf("\n the resultant polynomial is \n");
+    printf("\nThe resultant polynomial is :- \n");
     display(p3);
 }
