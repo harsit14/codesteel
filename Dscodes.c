@@ -1140,179 +1140,463 @@
 
 // DS LAB PROGRAM 9
 
-#include <stdio.h>
-#include <math.h>
-typedef struct node
-{
-    int cf;
-    int xex, yex, zex;
-    struct node *link;
-} NODE;
-NODE *p3 = NULL, *p3head = NULL;
-NODE *insert(NODE *head, NODE *last, int n)
-{
-    int i;
-    NODE *nn;
-    if (head == NULL)
-    {
-        nn = (NODE *)malloc(sizeof(NODE));
-        head = nn;
-        last = nn;
-        head->link = head;
-    }
-    for (i = 1; i <= n; i++)
-    {
-        nn = (NODE *)malloc(sizeof(NODE));
-        printf("Enter the coefficient \n");
-        scanf("%d", &nn->cf);
-        printf("Enter the exponent values for the x, y and z\n");
-        scanf("%d%d%d", &nn->xex, &nn->yex, &nn->zex);
-        if (head->link == head)
-        {
-            nn->link = head;
-            head->link = nn;
-            last = nn;
-        }
-        else if (nn->xex > head->link->xex)
-        {
-            nn->link = head->link;
-            head->link = nn;
-        }
-        else
-        {
-            nn->link = head;
-            last->link = nn;
-            last = nn;
-        }
-    }
-    return last;
-}
-void display(NODE *last)
-{
-    NODE *temp = last->link->link;
-    if (temp == NULL)
-    {
-        printf("LIST is empty\n");
-        return;
-    }
-    while (temp != last)
-    {
-        printf("(%dx^%dy^%dz^%d)+", temp->cf, temp->xex, temp->yex, temp->zex);
-        temp = temp->link;
-    }
-    printf("(%dx^%dy^%dz^%d)", last->cf, last->xex, last->yex, last->zex);
-}
-void add(NODE *p1, NODE *p2, int n1, int n2)
-{
-    NODE *nn = NULL, *a, *b;
-    int i = 0, j = 0, comp;
-    a = p1->link->link;
-    b = p2->link->link;
-    nn = (NODE *)malloc(sizeof(NODE));
-    p3head = nn;
-    p3 = nn;
-    p3head->link = p3head;
-    while (i < n1 && j < n2)
-    {
-        nn = (NODE *)malloc(sizeof(NODE));
-        nn->link = p3head;
-        p3->link = nn;
-        p3 = nn;
-        if (a->xex == b->xex)
-        {
-            nn->cf = a->cf + b->cf;
-            nn->xex = a->xex;
-            nn->yex = a->yex;
-            nn->zex = a->zex;
-            a = a->link;
-            b = b->link;
-            i++;
-            j++;
-        }
-        else if (a->xex > b->xex)
-        {
-            nn->cf = a->cf;
-            nn->xex = a->xex;
-            nn->yex = a->yex;
-            nn->zex = a->zex;
-            a = a->link;
-            i++;
-        }
-        else
-        {
-            nn->cf = b->cf;
-            nn->xex = b->xex;
-            nn->yex = b->yex;
-            nn->zex = b->zex;
-            b = b->link;
-            j++;
-        }
-    }
-    while (i < n1)
-    {
-        nn = (NODE *)malloc(sizeof(NODE));
-        nn->link = p3head;
-        p3->link = nn;
-        p3 = nn;
-        nn->cf = a->cf;
-        nn->xex = a->xex;
-        nn->yex = a->yex;
-        nn->zex = a->zex;
-        a = a->link;
-        i++;
-    }
-    while (j < n2)
-    {
-        nn = (NODE *)malloc(sizeof(NODE));
-        nn->link = p3head;
-        p3->link = nn;
-        p3 = nn;
-        nn->cf = b->cf;
-        nn->xex = b->xex;
-        nn->yex = b->yex;
-        nn->zex = b->zex;
-        j++;
-        b = b->link;
-    }
-}
-void eval(NODE *p)
-{
-    int x, y, z, res = 0, xval, yval, zval;
-    NODE *temp;
-    temp = p->link->link;
-    printf("\nEnter the value of x,y and z\n");
-    scanf("%d%d%d", &x, &y, &z);
-    while (temp != p)
-    {
-        xval = pow(x, temp->xex);
-        yval = pow(y, temp->yex);
-        zval = pow(z, temp->zex);
-        res = res + temp->cf * xval * yval * zval;
-        temp = temp->link;
-    }
-    xval = pow(x, temp->xex);
-    yval = pow(y, temp->yex);
-    zval = pow(z, temp->zex);
-    res = res + temp->cf * xval * yval * zval;
-    printf("\nThe result of the polynomial is :-  %d", res);
-}
-void main()
-{
-    int n1, n2;
-    NODE *head1 = NULL, *head2 = NULL, *p1 = NULL, *p2 = NULL;
-    printf("\nEnter the number of terms of first polynomial\n");
-    scanf("%d", &n1);
-    p1 = insert(head1, p1, n1);
-    eval(p1);
-    printf("\nEnter the number of terms of second polynomial\n");
-    scanf("%d", &n2);
-    p2 = insert(head2, p2, n2);
-    eval(p2);
-    add(p1, p2, n1, n2);
-    printf("\nThe first polynomial is :- \n");
-    display(p1);
-    printf("\nThe second polynomial is :- \n");
-    display(p2);
-    printf("\nThe resultant polynomial is :- \n");
-    display(p3);
-}
+// #include <stdio.h>
+// #include <math.h>
+// typedef struct node
+// {
+//     int cf;
+//     int xex, yex, zex;
+//     struct node *link;
+// } NODE;
+// NODE *p3 = NULL, *p3head = NULL;
+// NODE *insert(NODE *head, NODE *last, int n)
+// {
+//     int i;
+//     NODE *nn;
+//     if (head == NULL)
+//     {
+//         nn = (NODE *)malloc(sizeof(NODE));
+//         head = nn;
+//         last = nn;
+//         head->link = head;
+//     }
+//     for (i = 1; i <= n; i++)
+//     {
+//         nn = (NODE *)malloc(sizeof(NODE));
+//         printf("Enter the coefficient \n");
+//         scanf("%d", &nn->cf);
+//         printf("Enter the exponent values for the x, y and z\n");
+//         scanf("%d%d%d", &nn->xex, &nn->yex, &nn->zex);
+//         if (head->link == head)
+//         {
+//             nn->link = head;
+//             head->link = nn;
+//             last = nn;
+//         }
+//         else if (nn->xex > head->link->xex)
+//         {
+//             nn->link = head->link;
+//             head->link = nn;
+//         }
+//         else
+//         {
+//             nn->link = head;
+//             last->link = nn;
+//             last = nn;
+//         }
+//     }
+//     return last;
+// }
+// void display(NODE *last)
+// {
+//     NODE *temp = last->link->link;
+//     if (temp == NULL)
+//     {
+//         printf("LIST is empty\n");
+//         return;
+//     }
+//     while (temp != last)
+//     {
+//         printf("(%dx^%dy^%dz^%d)+", temp->cf, temp->xex, temp->yex, temp->zex);
+//         temp = temp->link;
+//     }
+//     printf("(%dx^%dy^%dz^%d)", last->cf, last->xex, last->yex, last->zex);
+// }
+// void add(NODE *p1, NODE *p2, int n1, int n2)
+// {
+//     NODE *nn = NULL, *a, *b;
+//     int i = 0, j = 0, comp;
+//     a = p1->link->link;
+//     b = p2->link->link;
+//     nn = (NODE *)malloc(sizeof(NODE));
+//     p3head = nn;
+//     p3 = nn;
+//     p3head->link = p3head;
+//     while (i < n1 && j < n2)
+//     {
+//         nn = (NODE *)malloc(sizeof(NODE));
+//         nn->link = p3head;
+//         p3->link = nn;
+//         p3 = nn;
+//         if (a->xex == b->xex)
+//         {
+//             nn->cf = a->cf + b->cf;
+//             nn->xex = a->xex;
+//             nn->yex = a->yex;
+//             nn->zex = a->zex;
+//             a = a->link;
+//             b = b->link;
+//             i++;
+//             j++;
+//         }
+//         else if (a->xex > b->xex)
+//         {
+//             nn->cf = a->cf;
+//             nn->xex = a->xex;
+//             nn->yex = a->yex;
+//             nn->zex = a->zex;
+//             a = a->link;
+//             i++;
+//         }
+//         else
+//         {
+//             nn->cf = b->cf;
+//             nn->xex = b->xex;
+//             nn->yex = b->yex;
+//             nn->zex = b->zex;
+//             b = b->link;
+//             j++;
+//         }
+//     }
+//     while (i < n1)
+//     {
+//         nn = (NODE *)malloc(sizeof(NODE));
+//         nn->link = p3head;
+//         p3->link = nn;
+//         p3 = nn;
+//         nn->cf = a->cf;
+//         nn->xex = a->xex;
+//         nn->yex = a->yex;
+//         nn->zex = a->zex;
+//         a = a->link;
+//         i++;
+//     }
+//     while (j < n2)
+//     {
+//         nn = (NODE *)malloc(sizeof(NODE));
+//         nn->link = p3head;
+//         p3->link = nn;
+//         p3 = nn;
+//         nn->cf = b->cf;
+//         nn->xex = b->xex;
+//         nn->yex = b->yex;
+//         nn->zex = b->zex;
+//         j++;
+//         b = b->link;
+//     }
+// }
+// void eval(NODE *p)
+// {
+//     int x, y, z, res = 0, xval, yval, zval;
+//     NODE *temp;
+//     temp = p->link->link;
+//     printf("\nEnter the value of x,y and z\n");
+//     scanf("%d%d%d", &x, &y, &z);
+//     while (temp != p)
+//     {
+//         xval = pow(x, temp->xex);
+//         yval = pow(y, temp->yex);
+//         zval = pow(z, temp->zex);
+//         res = res + temp->cf * xval * yval * zval;
+//         temp = temp->link;
+//     }
+//     xval = pow(x, temp->xex);
+//     yval = pow(y, temp->yex);
+//     zval = pow(z, temp->zex);
+//     res = res + temp->cf * xval * yval * zval;
+//     printf("\nThe result of the polynomial is :-  %d", res);
+// }
+// void main()
+// {
+//     int n1, n2;
+//     NODE *head1 = NULL, *head2 = NULL, *p1 = NULL, *p2 = NULL;
+//     printf("\nEnter the number of terms of first polynomial\n");
+//     scanf("%d", &n1);
+//     p1 = insert(head1, p1, n1);
+//     eval(p1);
+//     printf("\nEnter the number of terms of second polynomial\n");
+//     scanf("%d", &n2);
+//     p2 = insert(head2, p2, n2);
+//     eval(p2);
+//     add(p1, p2, n1, n2);
+//     printf("\nThe first polynomial is :- \n");
+//     display(p1);
+//     printf("\nThe second polynomial is :- \n");
+//     display(p2);
+//     printf("\nThe resultant polynomial is :- \n");
+//     display(p3);
+// }
+
+// LAB PROGRAM 10
+// #include <stdio.h>
+// typedef struct node
+// {
+//     int info;
+//     struct node *llink;
+//     struct node *rlink;
+// } NODE;
+// NODE *root = NULL;
+// void inorder(NODE *ptr)
+// {
+//     if (ptr)
+//     {
+//         inorder(ptr->llink);
+//         printf("%d\n", ptr->info);
+//         inorder(ptr->rlink);
+//     }
+// }
+// void preorder(NODE *ptr)
+// {
+//     if (ptr)
+//     {
+//         printf("%d\n", ptr->info);
+//         preorder(ptr->llink);
+//         preorder(ptr->rlink);
+//     }
+// }
+// void postorder(NODE *ptr)
+// {
+//     if (ptr)
+//     {
+//         postorder(ptr->llink);
+//         postorder(ptr->rlink);
+//         printf("%d\n", ptr->info);
+//     }
+// }
+// void create()
+// {
+//     NODE *nn, *prev, *temp;
+//     int i, n;
+//     printf("enter the value of n\n");
+//     scanf("%d", &n); //n is number of nodes in a tree
+//     for (i = 1; i <= n; i++)
+//     {
+//         nn = (NODE *)malloc(sizeof(NODE));
+//         printf("enter the info\n");
+//         scanf("%d", &nn->info);
+//         nn->llink = NULL;
+//         nn->rlink = NULL;
+//         if (root == NULL)
+//             root = nn;
+//         else
+//         {
+//             temp = root;
+//             while (temp != NULL)
+//             {
+//                 prev = temp;
+//                 if (nn->info > temp->info)
+//                     temp = temp->rlink;
+//                 else
+//                     temp = temp->llink;
+//             }
+//             if (nn->info < prev->info)
+//                 prev->llink = nn;
+//             else
+//                 prev->rlink = nn;
+//         }
+//     }
+// }
+// NODE *search(NODE *temp, int key)
+// {
+//     if (temp == NULL)
+//         return NULL;
+//     else if (key < temp->info)
+//         return search(temp->llink, key);
+//     else if (key > temp->info)
+//         return search(temp->rlink, key);
+//     else
+//         return temp;
+// }
+// void main()
+// {
+//     int ch, key;
+//     NODE *f;
+//     do
+//     {
+//         printf("1:create 2:inorder 3:preorder 4:postorder 5:search\n");
+//         scanf("%d", &ch);
+//         switch (ch)
+//         {
+//         case 1:
+//             create();
+//             break;
+//         case 2:
+//             inorder(root);
+//             break;
+//         case 3:
+//             preorder(root);
+//             break;
+//         case 4:
+//             postorder(root);
+//             break;
+//         case 5:
+//             printf("enter the key\n");
+//             scanf("%d", &key);
+//             f = search(root, key);
+//             if (f == NULL)
+//                 printf("key not found\n");
+//             else
+//                 printf("key found");
+//             break;
+// default:
+//     printf("INVALID CHOICE");
+//         }
+//     } while (ch <= 5);
+// }
+
+// Program 11
+
+// #include <stdio.h>
+//     int a[20][20],
+//     q[20], visited[20], reach[10], n, i, j, f = 0, r = 0;
+// void bfs(int v)
+// {
+//     visited[v] = 1;
+//     q[++r] = v;
+//     while (f != r)
+//     {
+//         v = q[++f];
+//         printf("%d\n", v);
+//         for (i = 1; i <= n; i++)
+//         {
+//             if (a[v][i] == 1 && visited[i] == 0)
+//             {
+//                 q[++r] = i;
+//                 visited[i] = 1;
+//             }
+//         }
+//     }
+// }
+// void create()
+// {
+//     int i;
+//     printf("\n Enter the number of vertices:");
+//     scanf("%d", &n);
+//     for (i = 1; i <= n; i++)
+//     {
+//         q[i] = 0;
+//         visited[i] = 0;
+//     }
+//     for (i = 1; i <= n - 1; i++)
+//         reach[i] = 0;
+//     printf("\n Enter graph data in matrix form:\n");
+//     for (i = 1; i <= n; i++)
+//         for (j = 1; j <= n; j++)
+//             scanf("%d", &a[i][j]);
+// }
+// void main()
+// {
+//     int v, ch;
+//     do
+//     {
+//         printf("\n 1. CREATE GRAPH\n 2.BFS\n ");
+//         printf("\n enter your choice\n");
+//         scanf("%d", &ch);
+//         switch (ch)
+//         {
+//         case 1:
+//             create();
+//             break;
+//         case 2:
+//             printf("\n Enter the starting vertex:");
+//             scanf("%d", &v);
+//             if ((v < 1) || (v > n))
+//                 printf("\n Bfs is not possible");
+//             else
+//             {
+//                 printf("\n The nodes which are reachable from %d:\n", v);
+//                 bfs(v);
+//             }
+//             break;
+//         default:
+//             printf("\n INVALID CHOICE\n");
+//         }
+//     } while (ch <= 2);
+// }
+
+// Program 12
+
+// #include <stdio.h>
+// #define MAX 10
+// void display(int a[MAX])
+// {
+//     int i, ch;
+//     do
+//     {
+//         printf("\n1.Display all \n 2.Filtered Display\n");
+//         printf("\nEnter your choice\n");
+//         scanf("%d", &ch);
+//         switch (ch)
+//         {
+//         case 1:
+//             printf("\nThe hash table is \n");
+//             for (i = 0; i < MAX; i++)
+//                 printf("\n %d %d ", i, a[i]);
+//             break;
+//         case 2:
+//             printf("\nThe hash table is \n");
+//             for (i = 0; i < MAX; i++)
+//                 if (a[i] != -1)
+//                 {
+//                     printf("\n %d %d ", i, a[i]);
+//                     continue;
+//                 }
+//             break;
+//         default:
+//             printf("\nInvalid choice\n");
+//         }
+//     } while (ch <= 2);
+// }
+// int create(int num)
+// {
+//     int key;
+//     key = num % 10;
+//     return key;
+// }
+// void linearprob(int a[MAX], int key, int num)
+// {
+//     int flag = 0, i, c = 0;
+//     if (a[key] == -1)
+//         a[key] = num;
+//     else
+//     {
+//         printf("\nCollision Detected...!!!\n");
+//         for (i = 0; i < MAX; i++)
+//         {
+//             if (a[i] != -1)
+//                 c++;
+//         }
+//         if (c == MAX)
+//         {
+//             printf("\nHash table is full\n");
+//             return;
+//         }
+//         printf("\nCollision avoided successfully using LINEAR PROBING\n");
+//         for (i = key + 1; i < MAX; i++)
+//             if (a[i] == -1)
+//             {
+//                 a[i] = num;
+//                 flag = 1;
+//                 break;
+//             }
+//         i = 0;
+//         while ((i < key) && (flag == 0))
+//         {
+//             if (a[i] == -1)
+//             {
+//                 a[i] = num;
+//                 flag = 1;
+//                 break;
+//             }
+//             i++;
+//         }
+//     }
+// }
+// void main()
+// {
+//     int a[MAX], num, key, i;
+//     int ch;
+//     printf("\nCollision handling by linear probing : \n");
+//     for (i = 0; i < MAX; i++)
+//         a[i] = -1;
+//     do
+//     {
+//         printf("\n Enter the value\n");
+//         scanf("%d", &num);
+//         key = create(num);
+//         linearprob(a, key, num);
+//         printf("\n Do you wish to continue ? (1/0) \n");
+//         scanf("%d", &ch);
+//     } while (ch);
+//     display(a);
+// }
